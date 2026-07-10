@@ -1,6 +1,6 @@
+use serde_json::json;
 use std::fs;
 use std::path::Path;
-use serde_json::json;
 
 pub fn read_local_template() -> Result<String, String> {
     let file_path = "/app/src-tauri/resume.md";
@@ -13,20 +13,22 @@ pub fn read_local_template() -> Result<String, String> {
 pub async fn send_to_agent(prompt: String) -> Result<String, String> {
     let agent_url = "http://resume_ollama:11434/api/generate";
     let client = reqwest::Client::new();
-    
+
     let body = json!({
-        "model": "qwen2.5:7b", 
+        "model": "qwen2.5:7b",
         "prompt": prompt,
-        "stream": false 
+        "stream": false
     });
 
-    let response = client.post(agent_url)
+    let response = client
+        .post(agent_url)
         .json(&body)
         .send()
         .await
         .map_err(|e| format!("Error connecting to agent: {}", e))?;
 
-    let json_response: serde_json::Value = response.json()
+    let json_response: serde_json::Value = response
+        .json()
         .await
         .map_err(|e| format!("Error reading JSON response: {}", e))?;
 
