@@ -1,0 +1,37 @@
+{
+    "build": {
+        "beforeDevCommand": "",
+        "beforeBuildCommand": "",
+        "devPath": "http://localhost:3000",
+        "distDir": "../out"
+    },
+    "package": {
+        "productName": "gerador-resume",
+        "version": "0.1.0"
+    },
+    "tauri": {
+        "allowlist": {
+            "all": true
+        },
+        "bundle": {
+            "active": true,
+            "targets": "all",
+            "identifier": "com.resume.ia",
+            "icon": [
+                "icons/icon.png"
+            ]
+        },
+        "security": {
+            "csp": null
+        },
+        "windows": [
+            {
+                "title": "Gerador de Currículo com IA Local",
+                "width": 1000,
+                "height": 700,
+                "resizable": true,
+                "fullscreen": false
+            }
+        ]
+    }
+}

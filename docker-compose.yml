@@ -1,0 +1,27 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: resume_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+
+  dev-env:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.dev
+    container_name: resume_rust_dev
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    environment:
+      - OLLAMA_API_URL=http://ollama:11434
+    depends_on:
+      - ollama
+    command: sh -c "npm install && tail -f /dev/null"
+
+volumes:
+  ollama_storage:

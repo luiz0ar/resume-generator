@@ -1,0 +1,35 @@
+FROM ubuntu:22.04
+
+# Evita prompts interativos durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala dependências básicas do sistema e bibliotecas exigidas pelo Tauri
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    build-essential \
+    pkg-config \
+    libssl-dev \
+    libgtk-3-dev \
+    libwebkit2gtk-4.0-dev \
+    libayatana-appindicator3-dev \
+    librsvg2-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instala o Rust (Toolchain estável)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Instala o Node.js (v20 LTS) e NPM para o Next.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# Define o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Expõe as portas de desenvolvimento
+EXPOSE 3000
+
+# Confirma as versões instaladas no log do build
+RUN rustc --version && cargo --version && node -v && npm -v

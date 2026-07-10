@@ -1,0 +1,25 @@
+[package]
+name = "gerador-resume"
+version = "0.1.0"
+description = "Gerador de Currículos com IA Local"
+authors = ["Luiz Felipe"]
+edition = "2021"
+
+# Indica onde está o binário principal do projeto
+[[bin]]
+name = "gerador-resume"
+path = "src/main.rs"
+
+[dependencies]
+# Pontes de comunicação e ciclo de vida do Tauri
+tauri = { version = "1.5", features = ["api-all"] }
+serde = { version = "1.0", features = ["derive"] }
+rouille = "3.6"
+serde_json = "1.0"
+
+# Biblioteca para requisições HTTP (usaremos para falar com o Ollama mais para frente)
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+tauri-build = { version = "1.5" }
